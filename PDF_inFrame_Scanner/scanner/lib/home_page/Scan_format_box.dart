@@ -30,11 +30,15 @@ class _Scan_format_boxState extends State<Scan_format_box> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => scan_page()),
+            MaterialPageRoute(
+              builder: (context) => scan_page(
+                format_name: widget.title,
+              ),
+            ),
           );
         },
         child: Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
             color: _isHovering ? Colors.grey[300] : Colors.white,
@@ -45,13 +49,13 @@ class _Scan_format_boxState extends State<Scan_format_box> {
             children: [
               Text(
                 widget.title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                 ),
               ),
               Text(
                 widget.sub_title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                 ),
               ),
