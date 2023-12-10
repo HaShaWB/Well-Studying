@@ -36,12 +36,12 @@ class _homeState extends State<home> {
                     crossAxisSpacing: 10, // 가로 방향의 스페이싱
                     mainAxisSpacing: 10, // 세로 방향의 스페이싱
                   ),
-                  itemCount: 10,
+                  itemCount: 2,
                   itemBuilder: (BuildContext context, int index) {
                     return const Scan_format_box(
-                        title: "수학",
-                        number_of_anchor: 10,
-                        anchor_position: [1]);
+                      title: "수학",
+                      sub_title: "평가원 기출",
+                    );
                   },
                 ),
               ),
