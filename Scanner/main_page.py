@@ -40,12 +40,19 @@ class CustomGraphicsView(QGraphicsView):
             if self.main_window:
                 self.main_window.capture_selected_area(rect)
         super().mouseReleaseEvent(event)
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_A:
+            self.main_window.prev_page()
+        elif event.key() == Qt.Key_D:
+            self.main_window.next_page()
+        super().keyPressEvent(event)
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("PDF 문제 출제기")
-        self.setMinimumSize(800, 1000)
+        self.setMinimumSize(900, 1000)
         self.document_path = None
         self.current_page = 0
         self.document = None
@@ -79,6 +86,18 @@ class MainWindow(QMainWindow):
         self.number_field.setFixedWidth(50)
         self.toolbar.addWidget(self.number_field)
 
+        # + 버튼 생성 및 설정
+        self.increment_button = QPushButton("+")
+        self.increment_button.clicked.connect(self.increment_number)
+        self.increment_button.setFixedWidth(50)
+        self.toolbar.addWidget(self.increment_button)
+
+        # - 버튼 생성 및 설정
+        self.decrement_button = QPushButton("-")
+        self.decrement_button.clicked.connect(self.decrement_number)
+        self.decrement_button.setFixedWidth(50)
+        self.toolbar.addWidget(self.decrement_button)
+
         self.subject_type_selector = QComboBox()
         self.subject_type_selector.addItems(["수학 - 공통과목", "수학 - 선택과목", "탐구"])
         self.toolbar.addWidget(self.subject_type_selector)
@@ -97,6 +116,15 @@ class MainWindow(QMainWindow):
         self.navigation_layout.addWidget(self.prev_page_button)
         self.navigation_layout.addWidget(self.next_page_button)
         self.layout.addLayout(self.navigation_layout)
+        
+    def increment_number(self):
+        current_number = int(self.number_field.text())
+        self.number_field.setText(str(current_number + 1))
+
+    def decrement_number(self):
+        current_number = int(self.number_field.text())
+        if current_number > 0:  # 0보다 작아지지 않도록 제한
+            self.number_field.setText(str(current_number - 1))
 
     def load_file(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Open File", "", "PDF Files (*.pdf)")
